@@ -1,0 +1,37 @@
+{
+  "name": "nodejs-mongodb",
+  "version": "1.0.0",
+  "description": "nodejs-mongodb",
+  "main": "src/index.js",
+  "scripts": {
+    "lint": "eslint src/**/*.js",
+    "start": "node ./src/index.js",
+    "dev": "nodemon src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ConstantineKobushka/nodejs-mongodb.git"
+  },
+  "keywords": [],
+  "author": "Kostiantyn Kobushka <kobushkaconstantine@gmail.com>",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/ConstantineKobushka/nodejs-mongodb/issues"
+  },
+  "homepage": "https://github.com/ConstantineKobushka/nodejs-mongodb#readme",
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.4.0",
+    "globals": "^17.6.0",
+    "nodemon": "^3.1.14"
+  },
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "mongoose": "^9.6.2",
+    "pino-http": "^11.0.0",
+    "pino-pretty": "^13.1.3"
+  }
+}
