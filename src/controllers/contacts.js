@@ -1,9 +1,9 @@
 import createError from 'http-errors';
 
-import * as contactServices from '../services/contacts.js';
+import * as contactService from '../services/contacts.js';
 
 export const getContactsController = async (req, res) => {
-  const data = await contactServices.getContacts();
+  const data = await contactService.getContacts();
 
   res.json({
     status: 200,
@@ -14,7 +14,7 @@ export const getContactsController = async (req, res) => {
 
 export const getContactsByIdController = async (req, res) => {
   const { id } = req.params;
-  const data = await contactServices.getContactById(id);
+  const data = await contactService.getContactById(id);
 
   if (!data) {
     throw createError(404, `Contact with id=${id} not found`);
@@ -28,7 +28,7 @@ export const getContactsByIdController = async (req, res) => {
 };
 
 export const addContactController = async (req, res) => {
-  const data = await contactServices.addContact(req.body);
+  const data = await contactService.addContact(req.body);
 
   res.status(201).json({
     status: 201,
@@ -39,7 +39,7 @@ export const addContactController = async (req, res) => {
 
 export const apsertContactController = async (req, res) => {
   const { id } = req.params;
-  const { isNew, data } = await contactServices.apdateContact(id, req.body, {
+  const { isNew, data } = await contactService.apdateContact(id, req.body, {
     upsert: true,
   });
 
@@ -54,7 +54,7 @@ export const apsertContactController = async (req, res) => {
 
 export const patchContactController = async (req, res) => {
   const { id } = req.params;
-  const result = await contactServices.apdateContact(id, req.body);
+  const result = await contactService.apdateContact(id, req.body);
 
   if (!result) {
     throw createError(404, `Contact with id=${id} not found`);
@@ -69,7 +69,7 @@ export const patchContactController = async (req, res) => {
 
 export const deleteContactController = async (req, res) => {
   const { id } = req.params;
-  const data = await contactServices.deletContact({ _id: id });
+  const data = await contactService.deletContact({ _id: id });
 
   if (!data) {
     throw createError(404, `Contact with id=${id} not found`);
