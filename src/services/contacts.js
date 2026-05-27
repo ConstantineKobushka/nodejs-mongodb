@@ -6,13 +6,17 @@ export const getContactById = id => ContactCollection.findById(id);
 
 export const addContact = payload => ContactCollection.create(payload);
 
-export const apdateContact = async (_id, payload, options = {}) => {
+export const updateContact = async (_id, contactData, options = {}) => {
   const { upsert = false } = options;
-  const result = await ContactCollection.findOneAndUpdate({ _id }, payload, {
-    new: true,
-    upsert,
-    includeResultMetadata: true,
-  });
+  const result = await ContactCollection.findOneAndUpdate(
+    { _id },
+    contactData,
+    {
+      new: true,
+      upsert,
+      includeResultMetadata: true,
+    }
+  );
 
   if (!result || !result.value) return null;
 

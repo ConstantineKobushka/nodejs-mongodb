@@ -16,7 +16,7 @@ contactsRouter.post('/', ctrlWrapper(contactController.addContactController));
 
 contactsRouter.put(
   '/:id',
-  ctrlWrapper(contactController.apsertContactController)
+  ctrlWrapper(contactController.upsertContactController)
 );
 
 contactsRouter.patch(

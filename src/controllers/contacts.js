@@ -32,14 +32,14 @@ export const addContactController = async (req, res) => {
 
   res.status(201).json({
     status: 201,
-    message: 'Successfully add contact!',
+    message: 'Successfully added contact!',
     data,
   });
 };
 
-export const apsertContactController = async (req, res) => {
+export const upsertContactController = async (req, res) => {
   const { id } = req.params;
-  const { isNew, data } = await contactService.apdateContact(id, req.body, {
+  const { isNew, data } = await contactService.updateContact(id, req.body, {
     upsert: true,
   });
 
@@ -47,14 +47,14 @@ export const apsertContactController = async (req, res) => {
 
   res.status(status).json({
     status,
-    message: 'Successfully apsert contact!',
+    message: 'Successfully upserted contact!',
     data,
   });
 };
 
 export const patchContactController = async (req, res) => {
   const { id } = req.params;
-  const result = await contactService.apdateContact(id, req.body);
+  const result = await contactService.updateContact(id, req.body);
 
   if (!result) {
     throw createError(404, `Contact with id=${id} not found`);
@@ -62,7 +62,7 @@ export const patchContactController = async (req, res) => {
 
   res.json({
     status: 200,
-    message: 'Successfully apdate contact!',
+    message: 'Successfully updated a contact!',
     data: result.data,
   });
 };
