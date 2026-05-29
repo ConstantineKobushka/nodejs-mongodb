@@ -12,7 +12,6 @@ export const updateContact = async (_id, contactData, options = {}) => {
     { _id },
     contactData,
     {
-      new: true,
       upsert,
       includeResultMetadata: true,
     }

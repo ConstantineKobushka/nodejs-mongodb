@@ -1,14 +1,17 @@
 import { Schema, model } from 'mongoose';
 
+import { typeList } from '../../constants/contacts.js';
+import { saveErrorHandler, setUpdateSettings } from './hooks.js';
+
 const contactSchema = new Schema(
   {
     name: {
       type: String,
-      require: true,
+      required: true,
     },
     phoneNumber: {
       type: String,
-      require: true,
+      required: true,
     },
     email: {
       type: String,
@@ -16,13 +19,13 @@ const contactSchema = new Schema(
     isFavourite: {
       type: Boolean,
       default: false,
-      require: true,
+      required: true,
     },
     contactType: {
       type: String,
-      enum: ['work', 'home', 'personal'],
-      require: true,
+      enum: typeList,
       default: 'personal',
+      required: true,
     },
   },
   {
@@ -30,6 +33,10 @@ const contactSchema = new Schema(
     versionKey: false,
   }
 );
+
+contactSchema.post('save', saveErrorHandler);
+contactSchema.pre('findOneAndUpdate', setUpdateSettings);
+contactSchema.post('findOneAndUpdate', saveErrorHandler);
 
 const ContactCollection = model('contact', contactSchema);
 
