@@ -1,4 +1,4 @@
-import ContactCollection from '../db/models/contacts.js';
+import ContactCollection from '../db/models/Contacts.js';
 import { calcPaginationdata } from '../utils/calcPaginationdata.js';
 
 export const getContacts = async ({
@@ -23,6 +23,10 @@ export const getContacts = async ({
     contactsQuery.where('isFavourite').equals(filter.isFavourite);
   }
 
+  if (filter.userId) {
+    contactsQuery.where('userId').equals(filter.userId);
+  }
+
   const total = await ContactCollection.find()
     .merge(contactsQuery)
     .countDocuments(); // countDocuments повертає загальну кількість обєктів
@@ -42,18 +46,16 @@ export const getContacts = async ({
 
 export const getContactById = id => ContactCollection.findById(id);
 
+export const getContact = filter => ContactCollection.findOne(filter);
+
 export const addContact = payload => ContactCollection.create(payload);
 
-export const updateContact = async (_id, contactData, options = {}) => {
+export const updateContact = async (filter, contactData, options = {}) => {
   const { upsert = false } = options;
-  const result = await ContactCollection.findOneAndUpdate(
-    { _id },
-    contactData,
-    {
-      upsert,
-      includeResultMetadata: true,
-    }
-  );
+  const result = await ContactCollection.findOneAndUpdate(filter, contactData, {
+    upsert,
+    includeResultMetadata: true,
+  });
 
   if (!result || !result.value) return null;
 

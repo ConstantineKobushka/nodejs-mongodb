@@ -1,7 +1,10 @@
 import express from 'express';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 
 import contactRoutes from './routes/contacts.js';
+import authRouter from './routes/auth.js';
+
 import { getEnvVar } from './utils/getEnvVar.js';
 import { loger } from './middlewares/loger.js';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
@@ -12,8 +15,10 @@ export const setupServer = () => {
 
   app.use(cors());
   app.use(express.json());
+  app.use(cookieParser());
   app.use(loger);
 
+  app.use('/auth', authRouter);
   app.use('/contacts', contactRoutes);
 
   app.use(notFoundHandler);
