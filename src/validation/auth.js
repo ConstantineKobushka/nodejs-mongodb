@@ -3,7 +3,7 @@ import Joi from 'joi';
 import { emailRegexp } from '../constants/user.js';
 
 export const authRegisterSchema = Joi.object({
-  username: Joi.string().min(3).max(20).required().messages({
+  name: Joi.string().min(3).max(20).required().messages({
     'string.base': 'Name must be a string.',
     'string.empty': 'Name is required.',
     'string.min': 'Name must contain at least 3 characters.',
