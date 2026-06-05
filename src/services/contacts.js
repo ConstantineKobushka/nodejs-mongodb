@@ -11,8 +11,6 @@ export const getContacts = async ({
   const limit = perPage;
   const skip = (page - 1) * limit;
 
-  console.log(filter);
-
   const contactsQuery = ContactCollection.find(); // отримуємо об'єкт запиту
 
   if (filter.contactType !== undefined) {
