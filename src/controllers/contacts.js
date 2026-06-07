@@ -4,7 +4,7 @@ import * as contactService from '../services/contacts.js';
 import { parsePaginationParams } from '../utils/parsePaginationParams.js';
 import { parseSortParams } from '../utils/parseSortParams.js';
 import { parseContactFilterParams } from '../utils/filters/parseContactFilterParams.js';
-import { sortByList } from '../db/models/Contacts.js';
+import { sortByList } from '../db/models/Contact.js';
 
 export const getContactsController = async (req, res) => {
   const { page, perPage } = parsePaginationParams(req.query);
@@ -55,10 +55,10 @@ export const addContactController = async (req, res) => {
 };
 
 export const upsertContactController = async (req, res) => {
-  const { id } = req.params;
+  const { id: _id } = req.params;
   const { _id: userId } = req.user;
   const { isNew, data } = await contactService.updateContact(
-    id,
+    { _id, userId },
     { ...req.body, userId },
     {
       upsert: true,

@@ -12,28 +12,27 @@ export const authRegisterSchema = Joi.object({
   }),
 
   email: Joi.string().pattern(emailRegexp).required().messages({
-    'string.pattern': 'Please provide a valid email address.',
-    'any.required': 'Name is required.',
+    'string.pattern.base': 'Please provide a valid email address.',
+    'any.required': 'Email is required.',
   }),
 
   password: Joi.string().min(6).required().messages({
-    'string.base': 'Phone number must be a string.',
-    'string.empty': 'Phone number is required.',
-    'string.min': 'Phone number must contain at least 3 characters.',
-    'any.required': 'Phone number is required.',
+    'string.base': 'Password must be a string.',
+    'string.empty': 'Password is required.',
+    'string.min': 'Password must contain at least 6 characters.',
+    'any.required': 'Password is required.',
   }),
 });
 
 export const authLoginSchema = Joi.object({
   email: Joi.string().pattern(emailRegexp).required().messages({
-    'string.pattern': 'Please provide a valid email address.',
-    'any.required': 'Name is required.',
+    'string.pattern.base': 'Please provide a valid email address.',
+    'any.required': 'Email is required.',
   }),
 
-  password: Joi.string().min(6).required().messages({
-    'string.base': 'Phone number must be a string.',
-    'string.empty': 'Phone number is required.',
-    'string.min': 'Phone number must contain at least 3 characters.',
-    'any.required': 'Phone number is required.',
+  password: Joi.string().required().messages({
+    'string.base': 'Password must be a string.',
+    'string.empty': 'Password is required.',
+    'any.required': 'Password is required.',
   }),
 });

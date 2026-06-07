@@ -1,4 +1,4 @@
-import ContactCollection from '../db/models/Contacts.js';
+import ContactCollection from '../db/models/Contact.js';
 import { calcPaginationdata } from '../utils/calcPaginationdata.js';
 
 export const getContacts = async ({
@@ -42,18 +42,24 @@ export const getContacts = async ({
   };
 };
 
-export const getContactById = id => ContactCollection.findById(id);
-
 export const getContact = filter => ContactCollection.findOne(filter);
 
-export const addContact = payload => ContactCollection.create(payload);
+export const getContactById = id => ContactCollection.findById(id);
+
+export const addContact = contactData => ContactCollection.create(contactData);
 
 export const updateContact = async (filter, contactData, options = {}) => {
   const { upsert = false } = options;
-  const result = await ContactCollection.findOneAndUpdate(filter, contactData, {
-    upsert,
-    includeResultMetadata: true,
-  });
+  const result = await ContactCollection.findOneAndUpdate(
+    filter,
+    {
+      $set: contactData,
+    },
+    {
+      upsert,
+      includeResultMetadata: true,
+    }
+  );
 
   if (!result || !result.value) return null;
 
