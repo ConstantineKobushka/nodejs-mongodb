@@ -1,29 +1,42 @@
 import nodemailer from 'nodemailer';
-import 'dotenv/config';
 
-const { UKR_NET_EMAIL, UKR_NET_PASSWORD } = process.env;
+import { getEnvVar } from './getEnvVar.js';
 
-const nodemailerConfig = {
-  host: 'smtp.ukr.net',
-  port: 465, // 25, 465, 887, 2525
+import { SMTP, UKR_NET_SMTP } from '../constants/index.js';
+
+const verifyEmailConfig = {
+  host: getEnvVar(UKR_NET_SMTP.UKR_NET_HOST),
+  port: getEnvVar(UKR_NET_SMTP.UKR_NET_PORT), // 25, 465, 887, 2525
   secure: true,
   auth: {
-    user: UKR_NET_EMAIL,
-    pass: UKR_NET_PASSWORD,
+    user: getEnvVar(UKR_NET_SMTP.UKR_NET_EMAIL),
+    pass: getEnvVar(UKR_NET_SMTP.UKR_NET_PASSWORD),
   },
 };
 
-const transport = nodemailer.createTransport(nodemailerConfig);
+const verifyEmailTransport = nodemailer.createTransport(verifyEmailConfig);
 
-/*
-const data = {
-    to: "xocir12840@fenxz.com",
-    subject: "Hello from ukr.net",
-    html: "<h1>Welcome to ukr.net</h1>",
+export const sendEmailToVerify = data => {
+  return verifyEmailTransport.sendMail({
+    ...data,
+    from: getEnvVar(UKR_NET_SMTP.UKR_NET_EMAIL),
+  });
 };
-*/
 
-export const sendEmail = data => {
-  const email = { ...data, from: UKR_NET_EMAIL };
-  return transport.sendMail(email);
+const resetEmailConfig = {
+  host: getEnvVar(SMTP.SMTP_HOST),
+  port: Number(getEnvVar(SMTP.SMTP_PORT)),
+  auth: {
+    user: getEnvVar(SMTP.SMTP_USER),
+    pass: getEnvVar(SMTP.SMTP_PASSWORD),
+  },
+};
+
+const resetEmailTransport = nodemailer.createTransport(resetEmailConfig);
+
+export const sendEmailToReset = data => {
+  return resetEmailTransport.sendMail({
+    ...data,
+    from: getEnvVar(SMTP.SMTP_FROM),
+  });
 };
