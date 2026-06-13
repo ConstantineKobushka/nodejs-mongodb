@@ -101,7 +101,6 @@ export const login = async ({ email, password }) => {
 };
 
 export const requestResetToken = async email => {
-  console.log(email);
   const user = await UserCollection.findOne({ email });
   if (!user) {
     throw createError(404, 'User not found');

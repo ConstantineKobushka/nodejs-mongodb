@@ -4,6 +4,7 @@ import * as contactController from '../controllers/contacts.js';
 
 import { isValidId } from '../middlewares/isValidId.js';
 import { authenticate } from '../middlewares/authenticate.js';
+import { upload } from '../middlewares/upload.js';
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import { validateBody } from '../utils/validateBody.js';
 import {
@@ -25,12 +26,16 @@ contactsRouter.get(
 
 contactsRouter.post(
   '/',
+  // upload.fields([{name: "poster", maxCount: 1}, {name: "subposter", maxCount: 4}])
+  // upload.array("poster", 8)
+  upload.single('photo'),
   validateBody(contactAddSchema),
   ctrlWrapper(contactController.addContactController)
 );
 
 contactsRouter.put(
   '/:id',
+  upload.single('photo'),
   isValidId,
   validateBody(contactAddSchema),
   ctrlWrapper(contactController.upsertContactController)
@@ -38,6 +43,7 @@ contactsRouter.put(
 
 contactsRouter.patch(
   '/:id',
+  upload.single('photo'),
   isValidId,
   validateBody(contactUpdateSchema),
   ctrlWrapper(contactController.patchContactController)
