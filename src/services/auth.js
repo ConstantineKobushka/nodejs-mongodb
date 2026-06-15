@@ -17,6 +17,10 @@ import {
   accessTokenLifetime,
 } from '../constants/user.js';
 import { TEMPLATES_DIR } from '../constants/index.js';
+import {
+  getUsernameFromGoogleTokenPayload,
+  validateCode,
+} from '../utils/googleOAuth2.js';
 
 const emailTemplatePath = path.join(TEMPLATES_DIR, 'verify-email.html');
 const emailTemplateSource = await readFile(emailTemplatePath, 'utf-8');
@@ -77,6 +81,7 @@ export const verify = async token => {
 
 export const login = async ({ email, password }) => {
   const user = await UserCollection.findOne({ email });
+
   if (!user) {
     throw createError(401, 'Email or password invalid');
   }
@@ -102,6 +107,7 @@ export const login = async ({ email, password }) => {
 
 export const requestResetToken = async email => {
   const user = await UserCollection.findOne({ email });
+
   if (!user) {
     throw createError(404, 'User not found');
   }
@@ -197,6 +203,28 @@ export const refreshToken = async payload => {
 
   return SessionCollection.create({
     userId: oldSession.userId,
+    ...sessionData,
+  });
+};
+
+export const loginOrRegisterWithGoogle = async code => {
+  const loginTicket = await validateCode(code);
+  const payload = loginTicket.getPayload();
+  let user = await UserCollection.findOne({ email: payload.email });
+  if (!user) {
+    const username = getUsernameFromGoogleTokenPayload(payload);
+    const password = await bcrypt.hash(randomBytes(10).toString('base64'), 10);
+
+    user = await UserCollection.create({
+      email: payload.email,
+      username,
+      password,
+    });
+  }
+  const sessionData = createSessionData();
+
+  return SessionCollection.create({
+    userId: user._id,
     ...sessionData,
   });
 };
