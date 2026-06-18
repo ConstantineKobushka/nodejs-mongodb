@@ -25,6 +25,10 @@ export const getContacts = async ({
     contactsQuery.where('userId').equals(filter.userId);
   }
 
+  if (filter.email) {
+    contactsQuery.where('email').equals(filter.email);
+  }
+
   const total = await ContactCollection.find()
     .merge(contactsQuery)
     .countDocuments(); // countDocuments повертає загальну кількість обєктів

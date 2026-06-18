@@ -42,13 +42,7 @@ const contactSchema = new Schema(
   }
 );
 
-export const sortByList = [
-  'name',
-  'phoneNumber',
-  'email',
-  'isFavourite',
-  'contactType',
-];
+export const sortByList = ['name', 'phoneNumber'];
 
 contactSchema.post('save', saveErrorHandler);
 contactSchema.pre('findOneAndUpdate', setUpdateSettings);

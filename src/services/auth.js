@@ -99,10 +99,13 @@ export const login = async ({ email, password }) => {
 
   const sessionData = createSessionData();
 
-  return SessionCollection.create({
-    userId: user._id,
-    ...sessionData,
-  });
+  return {
+    session: await SessionCollection.create({
+      userId: user._id,
+      ...sessionData,
+    }),
+    user,
+  };
 };
 
 export const requestResetToken = async email => {

@@ -142,7 +142,7 @@ export const patchContactController = async (req, res) => {
 
   res.json({
     status: 200,
-    massage: 'Successfully upserte contact',
+    massage: 'Successfully update contact',
     data: contact.data,
   });
 };

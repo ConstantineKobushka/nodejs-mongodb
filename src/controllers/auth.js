@@ -60,7 +60,7 @@ export const loginWithGoogleController = async (req, res) => {
 };
 
 export const loginController = async (req, res) => {
-  const session = await authService.login(req.body);
+  const { session, user } = await authService.login(req.body);
 
   setupSession(res, session);
 
@@ -69,6 +69,11 @@ export const loginController = async (req, res) => {
     message: 'Successfully logged in an user!',
     data: {
       accessToken: session.accessToken,
+      user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+      },
     },
   });
 };

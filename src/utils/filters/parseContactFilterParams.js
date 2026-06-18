@@ -1,9 +1,9 @@
+import { typeList } from '../../constants/contacts.js';
+
 const parseContactType = value => {
   if (typeof value !== 'string') return;
 
-  const validTypes = ['home', 'personal'];
-
-  if (validTypes.includes(value.toLowerCase())) {
+  if (typeList.includes(value.trim().toLowerCase())) {
     return value.toLowerCase();
   }
 
@@ -19,12 +19,28 @@ const parseContactIsFavorite = value => {
   return;
 };
 
-export const parseContactFilterParams = ({ contactType, isFavourite }) => {
+const parseEmail = value => {
+  if (typeof value === 'string') {
+    const email = value.trim().toLowerCase();
+
+    return email || undefined;
+  }
+
+  return;
+};
+
+export const parseContactFilterParams = ({
+  contactType,
+  isFavourite,
+  email,
+}) => {
   const parsedContactType = parseContactType(contactType);
   const parsedIsFavourite = parseContactIsFavorite(isFavourite);
+  const parsedEmail = parseEmail(email);
 
   return {
     contactType: parsedContactType,
     isFavourite: parsedIsFavourite,
+    email: parsedEmail,
   };
 };
